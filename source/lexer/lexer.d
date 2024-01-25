@@ -1,3 +1,5 @@
+module lexer;
+
 import std.string;
 import std.ascii;
 
@@ -28,6 +30,12 @@ Token[] lex(string input)
                 break;
             case ' ':
                 break;
+            case '*':
+                Tokens ~= Token(TYPE.MUL, "" ~ c);
+                break;
+            case '-' :
+                Tokens ~= Token(TYPE.MINUS, "" ~ c);
+                break;
             default:
                 string num = "";
                 while (isDigit(c))
@@ -46,5 +54,6 @@ Token[] lex(string input)
                 }
         }
     }
+    Tokens ~= Token(TYPE.EOF, "");
     return Tokens;  
 }
