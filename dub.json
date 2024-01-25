@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"valentin"
+	],
+	"copyright": "Copyright © 2024, valentin",
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "calculatord"
+}
