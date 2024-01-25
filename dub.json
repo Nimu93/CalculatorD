@@ -1,0 +1,11 @@
+{
+	"authors": [
+		"valentin"
+	],
+	"sourcePaths": ["source"],
+	"copyright": "Copyright © 2024, valentin",
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "calculatord",
+	"test": "source/tests/lexer_tests.d"
+}
