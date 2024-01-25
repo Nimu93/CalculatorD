@@ -1,0 +1,21 @@
+name: CI
+on:
+  pull_request:
+    branches: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up D
+      uses: dlang/setup-dlang@v2
+      with:
+        dmd: latest
+    - name: Build
+      run: dub build
+    - name: Tests
+      run: dub test
