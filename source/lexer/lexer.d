@@ -36,6 +36,15 @@ Token[] lex(string input)
             case '-' :
                 Tokens ~= Token(TYPE.MINUS, "" ~ c);
                 break;
+            case '/':
+                Tokens ~= Token(TYPE.DIV, "" ~ c);
+                break;
+            case '(':
+                Tokens ~= Token(TYPE.LPAREN, "" ~ c);
+                break;
+            case ')':
+                Tokens ~= Token(TYPE.RPAREN, "" ~ c);
+                break;
             default:
                 string num = "";
                 while (isDigit(c))
