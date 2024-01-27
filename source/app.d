@@ -1,7 +1,7 @@
 import std.stdio;
 import lexer;
 import ast;
-import parser;
+import parser.parser;
 
 void print_ast(Ast!Token ast)
 {
@@ -18,10 +18,15 @@ void print_ast(Ast!Token ast)
 
 void main()
 {
-	Token[] lex = lex("1 + 2 + 3");
+	Token[] lex = lex("(1 + 1) * 2");
 	foreach (Token t; lex)
 	{
 		writeln(t);
 	}
-	print_ast(parse(lex));
+	auto queue = parse(lex);
+    while (!queue.empty())
+    {
+        writeln(queue.dequeue().value.type);   
+    }
+	//print_ast(parse(lex));
 }

@@ -1,4 +1,4 @@
-module parser;
+module parser.parser;
 
 import stack;
 import lexer;
@@ -25,6 +25,18 @@ auto parse(Token[] tokens)
                 stack.push(new Ast!Token(tokens[i]));
             }
         }
+        if (tokens[i].type == TYPE.LPAREN)
+        {
+            stack.push(new Ast!Token(tokens[i]));
+        }
+        else if (tokens[i].type == TYPE.RPAREN)
+        {
+            while (stack.peek().value.type != TYPE.LPAREN)
+            {
+                queue.enqueue(stack.pop());
+            }
+            stack.pop();
+        }
         i++;
     }
     while (!stack.isEmpty())
@@ -33,3 +45,17 @@ auto parse(Token[] tokens)
     }
     return queue;
 }
+/*
+auto build_test(Queue!(Ast!Token) queue)
+{
+    while (!queue.empty())
+    {
+        Ast!Token tok = queue.dequeue();
+        switch (tok.value.type)
+        {
+            case TYPE.INTEGER:
+
+        }
+    }
+}
+*/

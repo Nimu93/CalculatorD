@@ -56,6 +56,7 @@ Token[] lex(string input)
                     c = input[i];
 
                 }
+                i--;
                 if (num != "")
                 {
                     Tokens ~= Token(TYPE.INTEGER, num);

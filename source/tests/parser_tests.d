@@ -1,6 +1,6 @@
 module parser_tests;
 import lexer;
-import parser;
+import parser.parser;
 import ast;
 import std.stdio;
 
