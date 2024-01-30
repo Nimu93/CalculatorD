@@ -6,9 +6,21 @@ import ast;
 import queue;
 import std.stdio;
 
-auto parse(Token[] tokens)
+int is_in_op(TYPE type)
 {
     TYPE[] OPERATORS = [TYPE.PLUS, TYPE.MINUS, TYPE.MUL, TYPE.DIV];
+    foreach (op; OPERATORS)
+    {
+        if (type == op)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+auto parse(Token[] tokens)
+{
     Stack!(Ast!Token) stack = new Stack!(Ast!Token)();
     auto queue = new Queue!(Ast!Token)();
     int i = 0;
@@ -18,12 +30,13 @@ auto parse(Token[] tokens)
         {
            queue.enqueue(new Ast!Token(tokens[i]));
         }
-        foreach (op; OPERATORS)
+        else if (is_in_op(tokens[i].type))
         {
-            if (tokens[i].type == op)
+            while (!stack.isEmpty() && stack.peek().value.type != TYPE.LPAREN && stack.peek().value.type >= tokens[i].type)
             {
-                stack.push(new Ast!Token(tokens[i]));
+                queue.enqueue(stack.pop());
             }
+            stack.push(new Ast!Token(tokens[i]));
         }
         if (tokens[i].type == TYPE.LPAREN)
         {
@@ -45,17 +58,28 @@ auto parse(Token[] tokens)
     }
     return queue;
 }
-/*
-auto build_test(Queue!(Ast!Token) queue)
+
+auto build_ast(Queue!(Ast!Token) queue)
 {
+    auto stack = new Stack!(Ast!Token)();
     while (!queue.empty())
     {
-        Ast!Token tok = queue.dequeue();
-        switch (tok.value.type)
+        auto node = queue.dequeue();
+        if (node.value.type == TYPE.INTEGER)
         {
-            case TYPE.INTEGER:
-
+            stack.push(node);
+        }
+        else
+        {
+            auto right = stack.pop();
+            auto left = stack.pop();
+            stack.push(new Ast!Token(node.value, left, right));
         }
     }
+    if (stack.size() != 1)
+    {
+        writeln("Error: queue size is not 1");
+        return null;
+    }
+    return stack.pop();
 }
-*/

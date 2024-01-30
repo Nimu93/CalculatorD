@@ -1,6 +1,8 @@
 module queue;
 
+import std.stdio: writef;
 import std.container :SList;
+import std.algorithm.searching: count;
 
 class Queue(T) {
     private SList!T list;
@@ -28,5 +30,16 @@ class Queue(T) {
 
     bool empty() {
         return list.empty;
+    }
+    int size() {
+        int c = cast(int) count(list[]);
+        return c;
+    }
+
+    void print() {
+        foreach (v; list[]) {
+            writef("%s ", v.value);
+        }
+        writef("\n");
     }
 }
