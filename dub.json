@@ -7,5 +7,5 @@
 	"description": "A minimal D application.",
 	"license": "proprietary",
 	"name": "calculatord",
-	"test": "source/tests/lexer_tests.d"
+	"test": ["source/tests/lexer_tests.d", "source/tests/parser_tests.d"]
 }
