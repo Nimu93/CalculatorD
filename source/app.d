@@ -2,31 +2,28 @@ import std.stdio;
 import lexer;
 import ast;
 import parser.parser;
+import execute;
 
-void print_ast(Ast!Token ast)
+void main(string[] args)
 {
-	writeln(ast);
-	if (ast.left)
+	if (args.length == 1)
 	{
-		print_ast(ast.left);
+		writeln("Usage: ./main <filename>");
+		return;
 	}
-	if (ast.right)
+	for (int i = 1; i < args.length; i++)
 	{
-		print_ast(ast.right);
+		auto lex = lex(args[i]);
+		auto queue = parse(lex);
+		if (queue is null)
+		{
+			writeln("Error: Failed to parse this expression ", args[i]);
+		}
+		auto ast = build_ast(queue);
+		if (ast is null)
+		{
+			writeln("Error: Failed to build ast for this expression ", args[i]);
+		}
+		writeln(execute_ast(ast));
 	}
-}
-
-void main()
-{
-	Token[] lex = lex("(1 + 1) * 2");
-	foreach (Token t; lex)
-	{
-		writeln(t);
-	}
-	auto queue = parse(lex);
-    while (!queue.empty())
-    {
-        writeln(queue.dequeue().value.type);   
-    }
-	//print_ast(parse(lex));
 }
